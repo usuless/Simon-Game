@@ -5,6 +5,8 @@ var gamePattern = [];
 
 var userClickedPattern = [];
 
+let level = 0;
+
 // wybór losowego koloru
 
 function nextSequence() {
@@ -23,16 +25,18 @@ function nextSequence() {
   // animacja flasha
 
   $("#" + randomChosenColour).fadeOut(100).fadeIn(100);
+  level++;
   return randomChosenColour;
 }
 
-nextSequence();
-// dodanie wyboru gracza
+// dźwięk funkcjonalność
 
 function playSound(name) {
   var audio = new Audio("sounds/" + name + ".mp3");
   audio.play();
 }
+
+// dodanie wyboru gracza
 
 $(".btn").click(function() {
   var userChosenColour = $(this).attr('id');
@@ -41,10 +45,23 @@ $(".btn").click(function() {
   playSound(userChosenColour);
 })
 
+// szarość kafelka
+
 $(".btn").click(function() {
   var self = $(this);
   self.addClass("pressed");
   setTimeout(function(){
     self.removeClass("pressed");
 }, 100);
+})
+
+// wykrywanie przycisku
+
+$(document).keydown(function(event) {
+  if (gamePattern.length == 0) {
+    nextSequence();
+    $("h1").text("game level: " + level);
+  } else {
+    console.log("działa");
+  }
 })
