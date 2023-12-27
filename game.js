@@ -12,6 +12,8 @@ let level = 0;
 function nextSequence() {
 
   userClickedPattern = [];
+  level++;
+  $("h1").text("game level: " + level);
 
   var randomNumber = Math.floor(Math.random() * 4);
 
@@ -26,7 +28,6 @@ function nextSequence() {
   // animacja flasha
 
   $("#" + randomChosenColour).fadeOut(100).fadeIn(100);
-  level++;
   return randomChosenColour;
 }
 
@@ -61,7 +62,6 @@ $(".btn").click(function() {
 $(document).keydown(function(event) {
   if (gamePattern.length == 0) {
     nextSequence();
-    $("h1").text("game level: " + level);
   }
 })
 
