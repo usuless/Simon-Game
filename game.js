@@ -11,10 +11,11 @@ let level = 0;
 
 function nextSequence() {
 
+  userClickedPattern = [];
+
   var randomNumber = Math.floor(Math.random() * 4);
 
   var randomChosenColour = buttonColours[randomNumber];
-  console.log(randomChosenColour);
 
   gamePattern.push(randomChosenColour);
 
@@ -40,9 +41,9 @@ function playSound(name) {
 
 $(".btn").click(function() {
   var userChosenColour = $(this).attr('id');
-  console.log(userChosenColour);
   userClickedPattern.push(userChosenColour);
   playSound(userChosenColour);
+  checkAnswer(userClickedPattern.length-1);
 })
 
 // szarość kafelka
@@ -61,7 +62,34 @@ $(document).keydown(function(event) {
   if (gamePattern.length == 0) {
     nextSequence();
     $("h1").text("game level: " + level);
-  } else {
-    console.log("działa");
   }
 })
+
+// następny poziom
+
+function checkAnswer(currentLevel) {
+  if(userClickedPattern[currentLevel] === gamePattern[currentLevel]) {
+    if (userClickedPattern.length === gamePattern.length){
+      setTimeout(function () {
+        nextSequence();
+      }, 1000);
+    }
+    } else {
+    startOver();
+    console.log("żydzi");
+    playSound("wrong");
+    $(document.body).addClass("game-over");
+    setTimeout(function(){
+      $(document.body).removeClass("game-over");
+  }, 100);
+  $("h1").text("Game Over :( press any key to restart");
+  }
+}
+
+// restart gry
+
+function startOver() {
+  level = 0;
+  gamePattern = [];
+  userClickedPattern = [];
+}
